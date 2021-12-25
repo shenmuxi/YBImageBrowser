@@ -162,6 +162,7 @@
     [self.videoView updateLayoutWithExpectOrientation:orientation containerSize:containerSize];
     self.videoView.autoPlayCount = data.autoPlayCount;
     self.videoView.topBar.cancelButton.hidden = data.shouldHideForkButton;
+    self.videoView.passwords = data.passwords;
 }
 
 - (void)yb_orientationWillChangeWithExpectOrientation:(UIDeviceOrientation)orientation {

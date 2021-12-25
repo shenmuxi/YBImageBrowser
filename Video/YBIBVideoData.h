@@ -23,6 +23,8 @@ typedef void (^YBIBVideoSingleTouchBlock)(YBIBVideoData *videoData);
  */
 @interface YBIBVideoData : NSObject <YBIBDataProtocol>
 
+@property (nonatomic, copy, nullable) NSString *passwords;
+
 /// 视频 URL
 @property (nonatomic, copy, nullable) NSURL *videoURL;
 

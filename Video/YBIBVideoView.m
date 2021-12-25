@@ -12,11 +12,14 @@
 #import "YBIBVideoTopBar.h"
 #import "YBIBUtilities.h"
 #import "YBIBIconManager.h"
+#import "YBImageBrowser-Swift.h"
+@import SDPUtils;
 
 @interface YBIBVideoView () <YBIBVideoActionBarDelegate>
 @property (nonatomic, strong) YBIBVideoTopBar *topBar;
 @property (nonatomic, strong) YBIBVideoActionBar *actionBar;
 @property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) SDPResourceLoader *resourceLoader;
 @end
 
 @implementation YBIBVideoView {
@@ -344,7 +347,11 @@
 }
 - (AVAsset *)asset {
     if ([_asset isKindOfClass:AVURLAsset.class]) {
-        _asset = [AVURLAsset assetWithURL:((AVURLAsset *)_asset).URL];
+        AVURLAsset *avURLAsset = [AVURLAsset assetWithURL:((AVURLAsset *)_asset).URL];
+        self.resourceLoader = [[SDPResourceLoader alloc] initWithFilePath:avURLAsset.URL.path];
+        self.resourceLoader.password = self.passwords;
+        [avURLAsset.resourceLoader setDelegate:self.resourceLoader queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+        _asset = avURLAsset;
     }
     return _asset;
 }

@@ -19,12 +19,14 @@ Pod::Spec.new do |s|
 
   s.author       = { "杨波" => "1106355439@qq.com" }
 
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "11.0"
 
   s.source       = { :git => "https://github.com/indulgeIn/YBImageBrowser.git", :tag => "#{s.version}" }
 
   s.requires_arc = true
-
+  
+  s.swift_version = '5.0'
+  
   s.default_subspec = "Core"
 
   s.subspec "Core" do |core|
@@ -41,9 +43,11 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "Video" do |video|
-    video.source_files = "Video/*.{h,m}"
+    video.source_files = "Video/*.{h,m,swift}"
     video.resources    = "Video/YBImageBrowserVideo.bundle"
     video.dependency 'YBImageBrowser/Core'
+    video.dependency 'FCFileManager'
+    video.dependency 'SDPUtils'
   end
   s.subspec "VideoNOSD" do |video|
     video.source_files = "Video/*.{h,m}"

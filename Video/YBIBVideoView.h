@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YBIBVideoView : UIView
 
+@property (nonatomic, copy) NSString *passwords;
+
 @property (nonatomic, strong) UIImageView *thumbImageView;
 
 @property (nonatomic, weak) id<YBIBVideoViewDelegate> delegate;
