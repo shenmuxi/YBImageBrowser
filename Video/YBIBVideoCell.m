@@ -60,15 +60,16 @@
     if (self) {
         [self initValue];
         [self.contentView addSubview:self.videoView];
+        self.videoView.frame = self.bounds;
         [self addGesture];
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.videoView.frame = self.bounds;
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    self.videoView.frame = self.bounds;
+//}
 
 - (void)initValue {
     _interactStartPoint = CGPointZero;

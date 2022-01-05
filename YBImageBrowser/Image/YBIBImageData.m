@@ -547,11 +547,13 @@ static dispatch_queue_t YBIBImageProcessingQueue(void) {
 }
 
 - (void)saveToPhotoAlbumCompleteWithError:(nullable NSError *)error {
-    if (error) {
-        [self.yb_auxiliaryViewHandler() yb_showIncorrectToastWithContainer:self.yb_containerView text:[YBIBCopywriter sharedCopywriter].saveToPhotoAlbumFailed];
-    } else {
-        [self.yb_auxiliaryViewHandler() yb_showCorrectToastWithContainer:self.yb_containerView text:[YBIBCopywriter sharedCopywriter].saveToPhotoAlbumSuccess];
-    }
+//    if (error) {
+//        [self.yb_auxiliaryViewHandler() yb_showIncorrectToastWithContainer:self.yb_containerView text:[YBIBCopywriter sharedCopywriter].saveToPhotoAlbumFailed];
+//    } else {
+//        [self.yb_auxiliaryViewHandler() yb_showCorrectToastWithContainer:self.yb_containerView text:[YBIBCopywriter sharedCopywriter].saveToPhotoAlbumSuccess];
+//    }
+    !self.copyFinish ?: self.copyFinish(nil == error);
+    
 }
 
 - (void)UIImageWriteToSavedPhotosAlbum_completedWithImage:(UIImage *)image error:(NSError *)error context:(void *)context {

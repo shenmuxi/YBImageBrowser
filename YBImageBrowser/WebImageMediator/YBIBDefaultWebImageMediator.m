@@ -48,13 +48,13 @@
 }
 
 - (void)yb_storeToDiskWithImageData:(NSData *)data forKey:(NSURL *)key {
-    if (!key) return;
-    NSString *cacheKey = [SDWebImageManager.sharedManager cacheKeyForURL:key];
-    if (!cacheKey) return;
-    
-    YBIB_DISPATCH_ASYNC(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        [[SDImageCache sharedImageCache] storeImageDataToDisk:data forKey:cacheKey];
-    })
+//    if (!key) return;
+//    NSString *cacheKey = [SDWebImageManager.sharedManager cacheKeyForURL:key];
+//    if (!cacheKey) return;
+//
+//    YBIB_DISPATCH_ASYNC(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+//        [[SDImageCache sharedImageCache] storeImageDataToDisk:data forKey:cacheKey];
+//    })
 }
 
 - (void)yb_queryCacheOperationForKey:(NSURL *)key completed:(YBIBWebImageCacheQueryCompletedBlock)completed {

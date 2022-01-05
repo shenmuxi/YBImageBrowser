@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface YBIBVideoTopBar : UIView
 
 @property (nonatomic, strong, readonly) UIButton *cancelButton;
+//@property (nonatomic, strong, readonly) UIButton *rotateButton;
 
 + (CGFloat)defaultHeight;
 

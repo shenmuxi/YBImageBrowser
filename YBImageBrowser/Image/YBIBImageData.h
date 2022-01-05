@@ -152,6 +152,9 @@ typedef void (^YBIBImageScrollViewStatusBlock)(YBIBImageData *imageData, UIScrol
 /// 处理后的压缩图片
 @property (nonatomic, strong, readonly) UIImage *compressedImage;
 
+/// 保存视频回调
+@property (nonatomic, copy) void (^copyFinish)(BOOL success);
+
 @end
 
 NS_ASSUME_NONNULL_END

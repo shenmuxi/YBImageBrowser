@@ -147,6 +147,9 @@
         self.actionBar.hidden = NO;
         
         [self.delegate yb_startPlayForVideoView:self];
+        
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionAllowBluetooth error:nil];
+        [[AVAudioSession sharedInstance] setActive:YES error:nil];
     }
 }
 
@@ -318,6 +321,24 @@
     [self.delegate yb_cancelledForVideoView:self];
 }
 
+//- (void)clickRotateButton:(UIButton *)button {
+//    CGFloat minValue = MIN(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+//    if (self.topBar.bounds.size.width > minValue) {
+//        [self setInterfaceOrienttation:UIDeviceOrientationPortrait];
+//        NSLog(@"clickRotateButton Portrait");
+//    }
+//    else {
+//        [self setInterfaceOrienttation:UIDeviceOrientationLandscapeLeft];
+//        NSLog(@"clickRotateButton Landscape");
+//    }
+//}
+
+- (void)setInterfaceOrienttation:(UIDeviceOrientation)orientation {
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+        [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
+    }
+}
+
 - (void)clickPlayButton:(UIButton *)button {
     [self preparPlay];
 }
@@ -360,6 +381,7 @@
     if (!_topBar) {
         _topBar = [YBIBVideoTopBar new];
         [_topBar.cancelButton addTarget:self action:@selector(clickCancelButton:) forControlEvents:UIControlEventTouchUpInside];
+//        [_topBar.rotateButton addTarget:self action:@selector(clickRotateButton:) forControlEvents:UIControlEventTouchUpInside];
         _topBar.hidden = YES;
     }
     return _topBar;

@@ -57,6 +57,8 @@ typedef UIImage * _Nullable (^YBIBIconBlock)(void);
 @property (nonatomic, copy) YBIBIconBlock videoBigPlayImage;
 /// 视频-拖动圆点
 @property (nonatomic, copy) YBIBIconBlock videoDragCircleImage;
+/// 视频-转屏
+@property (nonatomic, copy) YBIBIconBlock videoRotateImage;
 
 @end
 

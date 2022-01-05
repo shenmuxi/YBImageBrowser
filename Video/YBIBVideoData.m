@@ -12,6 +12,8 @@
 #import "YBIBUtilities.h"
 #import "YBIBPhotoAlbumManager.h"
 #import "YBIBCopywriter.h"
+#import <FCFileManager/FCFileManager.h>
+#import <SDPUtils/SDPUtils.h>
 
 extern CGImageRef YYCGImageCreateDecodedCopy(CGImageRef imageRef, BOOL decodeForDisplay);
 
@@ -183,7 +185,10 @@ extern CGImageRef YYCGImageCreateDecodedCopy(CGImageRef imageRef, BOOL decodeFor
             }
         } else if ([URL.scheme containsString:@"http"]) {
             [self downloadWithURL:URL];
-        } else {
+        } else if ([URL.scheme containsString:@"encrypt"]) {
+            !self.copyVideo ?: self.copyVideo(URL.path);
+        }
+        else {
             unableToSave();
         }
     } else {
