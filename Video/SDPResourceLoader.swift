@@ -14,6 +14,8 @@ import SDPUtils
 @objcMembers
 public class SDPResourceLoader: NSObject, AVAssetResourceLoaderDelegate {
     public var password: String = ""
+    
+    private var queue = DispatchQueue(label: "com.shenda.resourceloader")
         
     private var fileHandle: FileHandle?
     
@@ -62,19 +64,19 @@ public class SDPResourceLoader: NSObject, AVAssetResourceLoaderDelegate {
             contentInformationRequest.contentType = self.mimeType(loadingRequest.request.url!.pathExtension)
             contentInformationRequest.contentLength = self.fileSize
             contentInformationRequest.isByteRangeAccessSupported = true
-            Swift.print("check video, content type", contentInformationRequest.contentType!)
+//            Swift.print("check video, content type", contentInformationRequest.contentType!, Thread.current)
         }
         
         guard let dataRequest = loadingRequest.dataRequest else {
             return
         }
         
-        Swift.print("check video, new request", dataRequest.requestedOffset, dataRequest.requestedLength)
+//        Swift.print("check video, new request", dataRequest.requestedOffset, dataRequest.requestedLength, Thread.current)
         
         self.loadingRequest = loadingRequest
         self.offset = dataRequest.requestedOffset
         
-        self.timer = DispatchSource.makeTimerSource(queue: .global())
+        self.timer = DispatchSource.makeTimerSource(queue: self.queue)
         self.timer?.schedule(deadline: .now(), repeating: 0.1)
         self.timer?.setEventHandler(handler: { [weak self] in
             self?.responseData()
@@ -83,6 +85,9 @@ public class SDPResourceLoader: NSObject, AVAssetResourceLoaderDelegate {
     }
     
     func finishLoadingRequest() {
+//        if let loadingRequest = self.loadingRequest, let dataRequest = loadingRequest.dataRequest {
+//            Swift.print("check video, cancel old request", dataRequest.requestedOffset, dataRequest.requestedLength, Thread.current)
+//        }
         self.loadingRequest?.finishLoading()
         self.loadingRequest = nil
         self.timer?.cancel()
@@ -101,19 +106,19 @@ public class SDPResourceLoader: NSObject, AVAssetResourceLoaderDelegate {
         }
         
         let data = fileHandle.readData(ofLength: min(Int(33554432), dataRequest.requestedLength))
-        Swift.print("check video, respond offset", self.offset, " size", Int64(data.count))
+//        Swift.print("check video, respond offset", self.offset, " read size", Int64(data.count), Thread.current)
         NSData.encode(data, withKey: self.password, offset: self.offset)
         dataRequest.respond(with: data)
         self.offset = self.offset + Int64(data.count)
         
         if self.offset >= (dataRequest.requestedOffset + Int64(dataRequest.requestedLength)) {
+//            Swift.print("check video, finishLoading", Thread.current)
             self.finishLoadingRequest()
-            Swift.print("check video, finishLoading")
         }
     }
     
     public func resourceLoader(_ resourceLoader: AVAssetResourceLoader, shouldWaitForLoadingOfRequestedResource loadingRequest: AVAssetResourceLoadingRequest) -> Bool {
-        DispatchQueue.global().async {
+        self.queue.async {
             self.onLoadingRequest(loadingRequest)
         }
         return true
