@@ -77,7 +77,7 @@ public class SDPResourceLoader: NSObject, AVAssetResourceLoaderDelegate {
         self.offset = dataRequest.requestedOffset
         
         self.timer = DispatchSource.makeTimerSource(queue: self.queue)
-        self.timer?.schedule(deadline: .now(), repeating: 0.1)
+        self.timer?.schedule(deadline: .now(), repeating: 0.5)
         self.timer?.setEventHandler(handler: { [weak self] in
             self?.responseData()
         })
